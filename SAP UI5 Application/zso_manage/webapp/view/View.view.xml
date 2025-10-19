@@ -1,0 +1,70 @@
+<mvc:View 
+    controllerName="zsomanage.controller.View"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page 
+        id="page" 
+        title="{i18n>title}"
+        showHeader="false"
+        class="sapUiContentPadding">
+        <content>
+            <Table 
+                id="salesOrderTable" 
+                inset="false" 
+                items="{/SOHEADERSet}">
+                <headerToolbar>
+                    <Toolbar>
+                        <Title 
+                            text="Sales Orders" 
+                            level="H1" />
+                        <ToolbarSpacer/>
+                        <Button text="Approve Sales Order" press="onApprove" type="Accept"></Button>
+                        <Button text="Reject Sales Order" press="onReject" type="Reject"></Button>
+                    </Toolbar>
+                </headerToolbar>
+                
+                <columns>
+                    <Column>
+                        <Text text="Sales Order" />
+                    </Column>
+                    <Column>
+                        <Text text="Customer Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Created By" />
+                    </Column>
+                    <Column>
+                        <Text text="Created At" />
+                    </Column>
+                    <Column>
+                        <Text text="Total Items Price" />
+                    </Column>
+                    <Column>
+                        <Text text="Total Freight Price" />
+                    </Column>
+                    <Column>
+                        <Text text="Total Order Price" />
+                    </Column>
+                    <Column>
+                        <Text text="Status" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{SalesOrderId}" />
+                            <Text text="{CustomerId}" />
+                            <Text text="{CreatedBy}" />
+                            <Text text="{CreatedAt}" />
+                            <ObjectNumber number="{TotalItems}" />
+                            <ObjectNumber number="{TotalFreight}" />
+                            <ObjectNumber number="{TotalOrder}" />
+                            <Text text="{Status}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            
+            </Table>
+        </content>
+    </Page>
+</mvc:View>
