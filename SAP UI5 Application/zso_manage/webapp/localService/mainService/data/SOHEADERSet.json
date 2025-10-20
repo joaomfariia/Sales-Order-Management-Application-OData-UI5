@@ -1,0 +1,112 @@
+[
+    {
+        "SalesOrderId": "1",
+        "CustomerId": "Cus1",
+        "CreatedBy": "CreatedBy1",
+        "CreatedAt": "/Date(351994883000)/",
+        "TotalItems": 50.00,
+        "TotalFreight": 10.00,
+        "TotalOrder": 60.00,
+        "Status": "1"
+    },
+    {
+        "SalesOrderId": "2",
+        "CustomerId": "Cus2",
+        "CreatedBy": "CreatedBy2",
+        "CreatedAt": "/Date(289470696000)/",
+        "TotalItems": 60.00,
+        "TotalFreight": 8.00,
+        "TotalOrder": 68.00,
+        "Status": "2"
+    },
+    {
+        "SalesOrderId": "3",
+        "CustomerId": "Cus3",
+        "CreatedBy": "CreatedBy3",
+        "CreatedAt": "/Date(157446639000)/",
+        "TotalItems": 70.00,
+        "TotalFreight": 100.00,
+        "TotalOrder": 170.00,
+        "Status": "3"
+    },
+    {
+        "SalesOrderId": "4",
+        "CustomerId": "Cus4",
+        "CreatedBy": "CreatedBy4",
+        "CreatedAt": "/Date(1428015322000)/",
+        "TotalItems": 10.00,
+        "TotalFreight": 10.00,
+        "TotalOrder": 20.00,
+        "Status": "4"
+    },
+    {
+        "SalesOrderId": "5",
+        "CustomerId": "Cus5",
+        "CreatedBy": "CreatedBy5",
+        "CreatedAt": "/Date(892945471000)/",
+        "TotalItems": 25.00,
+        "TotalFreight": 25.00,
+        "TotalOrder": 50.00,
+        "Status": "5"
+    },
+    {
+        "SalesOrderId": "6",
+        "CustomerId": "Cus6",
+        "CreatedBy": "CreatedBy6",
+        "CreatedAt": "/Date(718434931000)/",
+        "TotalItems": 1000.00,
+        "TotalFreight": 1000.00,
+        "TotalOrder": 2000.0,
+        "Status": "6"
+    },
+    {
+        "SalesOrderId": "7",
+        "CustomerId": "Cus7",
+        "CreatedBy": "CreatedBy7",
+        "CreatedAt": "/Date(64550967000)/",
+        "TotalItems": 76.00,
+        "TotalFreight": 22.00,
+        "TotalOrder": 98.00,
+        "Status": "7"
+    },
+    {
+        "SalesOrderId": "8",
+        "CustomerId": "Cus8",
+        "CreatedBy": "CreatedBy8",
+        "CreatedAt": "/Date(44845377000)/",
+        "TotalItems": 99.00,
+        "TotalFreight": 1.00,
+        "TotalOrder": 100.00,
+        "Status": "8"
+    },
+    {
+        "SalesOrderId": "9",
+        "CustomerId": "Cus9",
+        "CreatedBy": "CreatedBy9",
+        "CreatedAt": "/Date(476100373000)/",
+        "TotalItems": 5.00,
+        "TotalFreight": 8.00,
+        "TotalOrder": 13.00,
+        "Status": "9"
+    },
+    {
+        "SalesOrderId": "10",
+        "CustomerId": "Cu10",
+        "CreatedBy": "CreatedBy10",
+        "CreatedAt": "/Date(1198877718000)/",
+        "TotalItems": 46.00,
+        "TotalFreight": 32.00,
+        "TotalOrder": 78.00,
+        "Status": "0"
+    },
+    {
+        "SalesOrderId": "11",
+        "CustomerId": "Cu11",
+        "CreatedBy": "CreatedBy11",
+        "CreatedAt": "/Date(1342834210000)/",
+        "TotalItems": 88.00,
+        "TotalFreight": 72.00,
+        "TotalOrder": 160.00,
+        "Status": "1"
+    }
+]
