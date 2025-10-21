@@ -7,6 +7,8 @@ public section.
 
   methods /IWBEP/IF_MGW_APPL_SRV_RUNTIME~CREATE_DEEP_ENTITY
     redefinition .
+  methods /IWBEP/IF_MGW_APPL_SRV_RUNTIME~EXECUTE_ACTION
+    redefinition .
 protected section.
 
   methods SOHEADERSET_CREATE_ENTITY
@@ -607,6 +609,39 @@ METHOD soitemset_update_entity.
   ENDIF.
 
   er_entity = CORRESPONDING #( ls_soitem ).
+
+ENDMETHOD.
+
+
+METHOD /iwbep/if_mgw_appl_srv_runtime~execute_action.
+
+  DATA:
+    lv_salesorderid TYPE zsoheader-salesorderid,
+    lv_status       TYPE zsoheader-status,
+    lt_bapiret2     TYPE TABLE OF zcl_zso_manage_mpc_ext=>ts_somessage.
+
+  IF iv_action_name EQ 'ZFI_UPDATE_STATUS'. "Function Import name
+    lv_salesorderid = VALUE #( it_parameter[ name = 'SalesOrderId' ]-value OPTIONAL ).
+    lv_salesorderid = |{ lv_salesorderid ALPHA = IN }|.
+    lv_status = VALUE #( it_parameter[ name = 'Status' ]-value OPTIONAL ).
+
+    UPDATE zsoheader
+    SET status = lv_status
+    WHERE salesorderid EQ lv_salesorderid.
+
+    IF sy-subrc EQ 0.
+      APPEND VALUE #( type = 'S' message = 'Status has been updated' ) TO lt_bapiret2.
+    ELSE.
+      APPEND VALUE #( type = 'E' message = 'Error during status update' ) TO lt_bapiret2.
+    ENDIF.
+  ENDIF.
+
+  me->copy_data_to_ref(
+    EXPORTING
+      is_data = lt_bapiret2
+    CHANGING
+      cr_data = er_data
+  ).
 
 ENDMETHOD.
 ENDCLASS.
