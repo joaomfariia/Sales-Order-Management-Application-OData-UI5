@@ -11,7 +11,7 @@
             <Table 
                 id="salesOrderTable" 
                 inset="false" 
-                items="{/SOHEADERSet}">
+                items="{/SOHeaderSet}">
                 <headerToolbar>
                     <Toolbar>
                         <Title 

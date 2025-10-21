@@ -50,19 +50,18 @@ METHOD soheaderset_create_entity.
       cx_error->get_longtext( ).
   ENDTRY.
 
-  SELECT SINGLE MAX( salesorderid )
-  FROM zsoheader
+  SELECT SINGLE FROM zsoheader
+  FIELDS MAX( salesorderid )
   INTO @DATA(lv_max_id).
 
   DATA(lv_last_id) = CONV int4( lv_max_id ).
-  lv_last_id += 1.
-  ls_soheader-salesorderid = lv_last_id.
+  ls_soheader-salesorderid = lv_last_id + 1.
   ls_soheader-salesorderid = |{ ls_soheader-salesorderid ALPHA = IN }|.
   ls_soheader-createdby = cl_abap_context_info=>get_user_technical_name( ).
   ls_soheader-totalorder = ls_soheader-totalitems + ls_soheader-totalfreight.
   GET TIME STAMP FIELD ls_soheader-createdat.
-  INSERT zsoheader FROM ls_soheader.
 
+  INSERT zsoheader FROM ls_soheader.
   IF sy-subrc NE 0.
     DATA(lo_message) = me->/iwbep/if_mgw_conv_srv_runtime~get_message_container( ).
     lo_message->add_message_text_only(
@@ -82,14 +81,16 @@ ENDMETHOD.
 
 METHOD soheaderset_delete_entity.
 
+  DATA lv_salesorderid TYPE zsoheader-salesorderid.
+
   DATA(lo_message) = me->/iwbep/if_mgw_conv_srv_runtime~get_message_container( ).
 
-  DATA(lv_salesorderid) = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  lv_salesorderid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  lv_salesorderid = |{ lv_salesorderid ALPHA = IN }|.
 
   DELETE FROM zsoitem WHERE salesorderid EQ lv_salesorderid.
   IF sy-subrc NE 0.
     ROLLBACK WORK.
-
     lo_message->add_message_text_only(
       iv_msg_type = 'E'
       iv_msg_text = 'Error during sales order item deletion'
@@ -102,7 +103,6 @@ METHOD soheaderset_delete_entity.
   DELETE FROM zsoheader WHERE salesorderid EQ lv_salesorderid.
   IF sy-subrc NE 0.
     ROLLBACK WORK.
-
     lo_message->add_message_text_only(
       iv_msg_type = 'E'
       iv_msg_text = 'Error during sales order deletion'
@@ -119,10 +119,13 @@ ENDMETHOD.
 
 METHOD soheaderset_get_entity.
 
-  DATA(lv_salesorderid) = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  DATA lv_salesorderid TYPE zsoheader-salesorderid.
 
-  SELECT SINGLE *
-  FROM zsoheader
+  lv_salesorderid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  lv_salesorderid = |{ lv_salesorderid ALPHA = IN }|.
+
+  SELECT SINGLE FROM zsoheader
+  FIELDS *
   WHERE salesorderid EQ @lv_salesorderid
   INTO @DATA(ls_soheader).
 
@@ -230,6 +233,8 @@ METHOD soheaderset_update_entity.
         http_status_code  = 400.
   ENDIF.
 
+  ls_soheader-totalorder = ls_soheader-totalitems + ls_soheader-totalfreight.
+
   UPDATE zsoheader
   SET customerid = ls_soheader-customerid
       totalitems = ls_soheader-totalitems
@@ -277,32 +282,32 @@ METHOD /iwbep/if_mgw_appl_srv_runtime~create_deep_entity.
     GET TIME STAMP FIELD ls_soheader-createdat.
     ls_soheader-totalorder = ls_soheader-totalitems + ls_soheader-totalfreight.
 
-    SELECT SINGLE MAX( salesorderid )
-    FROM zsoheader
+    SELECT SINGLE FROM zsoheader
+    FIELDS MAX( salesorderid )
     INTO @DATA(lv_max_id).
-    IF sy-subrc EQ 0 .
-      DATA(lv_last_id) = CONV int4( lv_max_id ).
-      lv_last_id += 1.
-      ls_soheader-salesorderid = lv_last_id.
-      ls_soheader-salesorderid = |{ ls_soheader-salesorderid ALPHA = IN }|.
-    ENDIF.
+
+    DATA(lv_last_id) = CONV int4( lv_max_id ).
+    ls_soheader-salesorderid = lv_last_id + 1.
+    ls_soheader-salesorderid = |{ ls_soheader-salesorderid ALPHA = IN }|.
 
   ELSE. "Update/PUT/PATCH
     is_update = abap_true.
 
     "Fetch old data
-    SELECT SINGLE *
-    FROM zsoheader
-    INTO @ls_soheader
-    WHERE salesorderid EQ @ls_deep_entity-salesorderid.
+    SELECT SINGLE FROM zsoheader
+    FIELDS *
+    WHERE salesorderid EQ @ls_deep_entity-salesorderid
+    INTO @ls_soheader.
 
-    "Update with new data
+    "Update with new data from JSON
     ls_soheader = CORRESPONDING #( ls_deep_entity ).
+    ls_soheader-totalorder = ls_soheader-totalitems + ls_soheader-totalfreight.
   ENDIF.
 
   LOOP AT ls_deep_entity-tosoitem ASSIGNING FIELD-SYMBOL(<fs_item>).
     ls_item = CORRESPONDING #( <fs_item> ).
-    ls_item-salesorderid = ls_deep_entity-salesorderid.
+    ls_item-salesorderid = ls_soheader-salesorderid.
+    ls_item-totalprice = ls_item-quantity * ls_item-priceunit.
     APPEND ls_item TO lt_items.
     CLEAR ls_item.
   ENDLOOP.
@@ -355,10 +360,6 @@ METHOD /iwbep/if_mgw_appl_srv_runtime~create_deep_entity.
   "Updating the return structure
   ls_deep_entity = CORRESPONDING #( ls_soheader ).
   ls_deep_entity-tosoitem = lt_items[].
-
-  LOOP AT ls_deep_entity-tosoitem ASSIGNING FIELD-SYMBOL(<fs_deep_item>).
-    <fs_deep_item>-salesorderid = ls_soheader-salesorderid.
-  ENDLOOP.
 
   me->copy_data_to_ref(
     EXPORTING
@@ -425,18 +426,18 @@ ENDMETHOD.
 
 METHOD soitemset_delete_entity.
 
-  DATA lv_salesid TYPE zsoitem-salesorderid.
+  DATA lv_salesorderid TYPE zsoitem-salesorderid.
   DATA has_error TYPE abap_bool.
 
   DATA(lo_message) = me->/iwbep/if_mgw_conv_srv_runtime~get_message_container( ).
 
-  lv_salesid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
-  lv_salesid = |{ lv_salesid ALPHA = IN }|.
+  lv_salesorderid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  lv_salesorderid = |{ lv_salesorderid ALPHA = IN }|.
   DATA(lv_itemid) = VALUE #( it_key_tab[ name = 'SalesOrderItem' ]-value OPTIONAL ).
 
   SELECT SINGLE FROM zsoitem
   FIELDS salesorderid, salesorderitem
-  WHERE salesorderid EQ @lv_salesid
+  WHERE salesorderid EQ @lv_salesorderid
     AND salesorderitem EQ @lv_itemid
   INTO @DATA(ls_item).
 
@@ -448,7 +449,7 @@ METHOD soitemset_delete_entity.
     ).
   ENDIF.
 
-  DELETE FROM zsoitem WHERE salesorderid EQ lv_salesid
+  DELETE FROM zsoitem WHERE salesorderid EQ lv_salesorderid
                         AND salesorderitem EQ lv_itemid.
   IF sy-subrc NE 0.
     ROLLBACK WORK.
@@ -470,15 +471,15 @@ ENDMETHOD.
 
 METHOD soitemset_get_entity.
 
-  DATA lv_salesid TYPE zsoitem-salesorderid.
+  DATA lv_salesorderid TYPE zsoitem-salesorderid.
 
-  lv_salesid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
-  lv_salesid = |{ lv_salesid ALPHA = IN }|.
+  lv_salesorderid = VALUE #( it_key_tab[ name = 'SalesOrderId' ]-value OPTIONAL ).
+  lv_salesorderid = |{ lv_salesorderid ALPHA = IN }|.
   DATA(lv_itemid) = VALUE #( it_key_tab[ name = 'SalesOrderItem' ]-value OPTIONAL ).
 
   SELECT SINGLE FROM zsoitem
   FIELDS *
-  WHERE salesorderid EQ @lv_salesid
+  WHERE salesorderid EQ @lv_salesorderid
     AND salesorderitem EQ @lv_itemid
   INTO @DATA(ls_soitem).
 
@@ -585,6 +586,8 @@ METHOD soitemset_update_entity.
         message_container = lo_message.
   ENDIF.
 
+  ls_soitem-totalprice = ls_soitem-quantity * ls_soitem-priceunit.
+
   UPDATE zsoitem
   SET salesorderid = ls_soitem-salesorderid
       salesorderitem = ls_soitem-salesorderitem
@@ -592,7 +595,7 @@ METHOD soitemset_update_entity.
       description = ls_soitem-description
       quantity = ls_soitem-quantity
       priceunit = ls_soitem-priceunit
-      totalprice = ls_soitem-priceunit
+      totalprice = ls_soitem-totalprice
   WHERE salesorderid EQ ls_soitem-salesorderid
     AND salesorderitem EQ ls_soitem-salesorderitem.
 
