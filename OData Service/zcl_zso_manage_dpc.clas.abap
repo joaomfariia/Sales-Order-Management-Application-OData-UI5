@@ -183,7 +183,7 @@ CLASS ZCL_ZSO_MANAGE_DPC IMPLEMENTATION.
   method /IWBEP/IF_MGW_APPL_SRV_RUNTIME~CREATE_ENTITY.
 *&----------------------------------------------------------------------------------------------*
 *&  Include           /IWBEP/DPC_TEMP_CRT_ENTITY_BASE
-*&* This class has been generated on 15.10.2025 12:37:49 in client 100
+*&* This class has been generated on 20.10.2025 19:15:23 in client 100
 *&*
 *&*       WARNING--> NEVER MODIFY THIS CLASS <--WARNING
 *&*   If you want to change the DPC implementation, use the
@@ -198,9 +198,9 @@ lv_entityset_name = io_tech_request_context->get_entity_set_name( ).
 
 CASE lv_entityset_name.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOHEADERSet
+*             EntitySet -  SOHeaderSet
 *-------------------------------------------------------------------------*
-     WHEN 'SOHEADERSet'.
+     WHEN 'SOHeaderSet'.
 *     Call the entity set generated method
     soheaderset_create_entity(
          EXPORTING iv_entity_name     = iv_entity_name
@@ -221,9 +221,9 @@ CASE lv_entityset_name.
    ).
 
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOITEMSet
+*             EntitySet -  SOItemSet
 *-------------------------------------------------------------------------*
-     WHEN 'SOITEMSet'.
+     WHEN 'SOItemSet'.
 *     Call the entity set generated method
     soitemset_create_entity(
          EXPORTING iv_entity_name     = iv_entity_name
@@ -262,7 +262,7 @@ ENDCASE.
   method /IWBEP/IF_MGW_APPL_SRV_RUNTIME~DELETE_ENTITY.
 *&----------------------------------------------------------------------------------------------*
 *&  Include           /IWBEP/DPC_TEMP_DEL_ENTITY_BASE
-*&* This class has been generated on 15.10.2025 12:37:49 in client 100
+*&* This class has been generated on 20.10.2025 19:15:23 in client 100
 *&*
 *&*       WARNING--> NEVER MODIFY THIS CLASS <--WARNING
 *&*   If you want to change the DPC implementation, use the
@@ -275,9 +275,9 @@ lv_entityset_name = io_tech_request_context->get_entity_set_name( ).
 
 CASE lv_entityset_name.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOHEADERSet
+*             EntitySet -  SOHeaderSet
 *-------------------------------------------------------------------------*
-      when 'SOHEADERSet'.
+      when 'SOHeaderSet'.
 *     Call the entity set generated method
      soheaderset_delete_entity(
           EXPORTING iv_entity_name     = iv_entity_name
@@ -289,9 +289,9 @@ CASE lv_entityset_name.
      ).
 
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOITEMSet
+*             EntitySet -  SOItemSet
 *-------------------------------------------------------------------------*
-      when 'SOITEMSet'.
+      when 'SOItemSet'.
 *     Call the entity set generated method
      soitemset_delete_entity(
           EXPORTING iv_entity_name     = iv_entity_name
@@ -318,7 +318,7 @@ CASE lv_entityset_name.
   method /IWBEP/IF_MGW_APPL_SRV_RUNTIME~GET_ENTITY.
 *&-----------------------------------------------------------------------------------------------*
 *&  Include           /IWBEP/DPC_TEMP_GETENTITY_BASE
-*&* This class has been generated  on 15.10.2025 12:37:49 in client 100
+*&* This class has been generated  on 20.10.2025 19:15:23 in client 100
 *&*
 *&*       WARNING--> NEVER MODIFY THIS CLASS <--WARNING
 *&*   If you want to change the DPC implementation, use the
@@ -334,9 +334,9 @@ lv_entityset_name = io_tech_request_context->get_entity_set_name( ).
 
 CASE lv_entityset_name.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOHEADERSet
+*             EntitySet -  SOHeaderSet
 *-------------------------------------------------------------------------*
-      WHEN 'SOHEADERSet'.
+      WHEN 'SOHeaderSet'.
 *     Call the entity set generated method
           soheaderset_get_entity(
                EXPORTING iv_entity_name     = iv_entity_name
@@ -362,9 +362,9 @@ CASE lv_entityset_name.
           er_entity = lr_entity.
         ENDIF.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOITEMSet
+*             EntitySet -  SOItemSet
 *-------------------------------------------------------------------------*
-      WHEN 'SOITEMSet'.
+      WHEN 'SOItemSet'.
 *     Call the entity set generated method
           soitemset_get_entity(
                EXPORTING iv_entity_name     = iv_entity_name
@@ -408,7 +408,7 @@ CASE lv_entityset_name.
   method /IWBEP/IF_MGW_APPL_SRV_RUNTIME~GET_ENTITYSET.
 *&----------------------------------------------------------------------------------------------*
 *&  Include           /IWBEP/DPC_TMP_ENTITYSET_BASE
-*&* This class has been generated on 15.10.2025 12:37:49 in client 100
+*&* This class has been generated on 20.10.2025 19:15:23 in client 100
 *&*
 *&*       WARNING--> NEVER MODIFY THIS CLASS <--WARNING
 *&*   If you want to change the DPC implementation, use the
@@ -422,9 +422,9 @@ lv_entityset_name = io_tech_request_context->get_entity_set_name( ).
 
 CASE lv_entityset_name.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOHEADERSet
+*             EntitySet -  SOHeaderSet
 *-------------------------------------------------------------------------*
-   WHEN 'SOHEADERSet'.
+   WHEN 'SOHeaderSet'.
 *     Call the entity set generated method
       soheaderset_get_entityset(
         EXPORTING
@@ -452,9 +452,9 @@ CASE lv_entityset_name.
       ).
 
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOITEMSet
+*             EntitySet -  SOItemSet
 *-------------------------------------------------------------------------*
-   WHEN 'SOITEMSet'.
+   WHEN 'SOItemSet'.
 *     Call the entity set generated method
       soitemset_get_entityset(
         EXPORTING
@@ -504,7 +504,7 @@ CASE lv_entityset_name.
   method /IWBEP/IF_MGW_APPL_SRV_RUNTIME~UPDATE_ENTITY.
 *&----------------------------------------------------------------------------------------------*
 *&  Include           /IWBEP/DPC_TEMP_UPD_ENTITY_BASE
-*&* This class has been generated on 15.10.2025 12:37:49 in client 100
+*&* This class has been generated on 20.10.2025 19:15:23 in client 100
 *&*
 *&*       WARNING--> NEVER MODIFY THIS CLASS <--WARNING
 *&*   If you want to change the DPC implementation, use the
@@ -520,9 +520,9 @@ lv_entityset_name = io_tech_request_context->get_entity_set_name( ).
 
 CASE lv_entityset_name.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOHEADERSet
+*             EntitySet -  SOHeaderSet
 *-------------------------------------------------------------------------*
-      WHEN 'SOHEADERSet'.
+      WHEN 'SOHeaderSet'.
 *     Call the entity set generated method
           soheaderset_update_entity(
                EXPORTING iv_entity_name     = iv_entity_name
@@ -547,9 +547,9 @@ CASE lv_entityset_name.
           er_entity = lr_entity.
         ENDIF.
 *-------------------------------------------------------------------------*
-*             EntitySet -  SOITEMSet
+*             EntitySet -  SOItemSet
 *-------------------------------------------------------------------------*
-      WHEN 'SOITEMSet'.
+      WHEN 'SOItemSet'.
 *     Call the entity set generated method
           soitemset_update_entity(
                EXPORTING iv_entity_name     = iv_entity_name
