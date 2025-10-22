@@ -112,8 +112,8 @@
       ],
       "targets": {
         "TargetView": {
-          "id": "View",
-          "name": "View"
+          "id": "Sales",
+          "name": "Sales"
         }
       }
     },

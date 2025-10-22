@@ -1,5 +1,5 @@
 <mvc:View 
-    controllerName="zsomanage.controller.View"
+    controllerName="zsomanage.controller.Sales"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page 
@@ -15,38 +15,38 @@
                 <headerToolbar>
                     <Toolbar>
                         <Title 
-                            text="Sales Orders" 
+                            text="{i18n>title}" 
                             level="H1" />
                         <ToolbarSpacer/>
-                        <Button text="Approve Sales Order" press="onApprove" type="Accept"></Button>
-                        <Button text="Reject Sales Order" press="onReject" type="Reject"></Button>
+                        <Button text="{i18n>approveSalesOrder}" press="onApprove" type="Accept"></Button>
+                        <Button text="{i18n>rejectSalesOrder}" press="onReject" type="Reject"></Button>
                     </Toolbar>
                 </headerToolbar>
                 
                 <columns>
                     <Column>
-                        <Text text="Sales Order" />
+                        <Text text="{i18n>salesOrderId}" />
                     </Column>
                     <Column>
-                        <Text text="Customer Name" />
+                        <Text text="{i18n>customerName}" />
                     </Column>
                     <Column>
-                        <Text text="Created By" />
+                        <Text text="{i18n>createdBy}" />
                     </Column>
                     <Column>
-                        <Text text="Created At" />
+                        <Text text="{i18n>createdAt}" />
                     </Column>
                     <Column>
-                        <Text text="Total Items Price" />
+                        <Text text="{i18n>totalItems}" />
                     </Column>
                     <Column>
-                        <Text text="Total Freight Price" />
+                        <Text text="{i18n>totalFreight}" />
                     </Column>
                     <Column>
-                        <Text text="Total Order Price" />
+                        <Text text="{i18n>totalOrder}" />
                     </Column>
                     <Column>
-                        <Text text="Status" />
+                        <Text text="{i18n>status}" />
                     </Column>
                 </columns>
                 <items>
